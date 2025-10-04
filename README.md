@@ -1,7 +1,7 @@
 # 📋 Notulen Final – Entry Data & Sistem Database ROEMI
 
 Dokumen ini berisi hasil rapat final mengenai rancangan **Entry Data Individu, Event, Panitia, Lembaga/Komunitas, Dashboard, dan Report** dalam sistem **ROEMI**.  
-Format dibuat interaktif dan terstruktur layaknya dokumentasi teknis.  
+
 
 ---
 
