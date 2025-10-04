@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Form Input Individu</title>
+  <style>
+    :root { 
+      --primary1:#00B8D9; 
+      --primary2:#98DA43; 
+      --primary3:#E300B5; 
+      --secondary:#FF9900; 
+      --neutral-dark:#222640; 
+      --neutral-light:#FFFFFF; 
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,"Noto Sans",sans-serif;background:var(--neutral-light);color:var(--neutral-dark)}
+    header{padding:24px 16px;text-align:center;background:var(--primary1);color:var(--neutral-light)}
+    header h1{margin:0;font-size:clamp(20px,3vw,28px)}
+    header p{margin:6px 0 0;color:var(--neutral-light)}
+    .container{max-width:1000px;margin:0 auto;padding:16px}
+    form{background:var(--neutral-light);border:2px solid var(--primary2);box-shadow:0 6px 20px rgba(34,38,64,.2);border-radius:16px;overflow:hidden}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+    .section{padding:20px;border-top:1px dashed #ddd}
+    .section:first-child{border-top:none}
+    h2{font-size:18px;margin:0 0 12px;color:var(--primary3)}
+    label{display:block;font-weight:600;margin:8px 0 6px;color:var(--neutral-dark)}
+    input, select, textarea{width:100%;padding:12px 14px;background:var(--neutral-light);border:1px solid #ccc;color:var(--neutral-dark);border-radius:10px;outline:none}
+    input:focus, select:focus, textarea:focus{border-color:var(--primary1);box-shadow:0 0 0 3px rgba(0,184,217,.25)}
+    .row-6{grid-column:span 6}
+    .row-4{grid-column:span 4}
+    .row-8{grid-column:span 8}
+    .row-12{grid-column:span 12}
+    .inline{display:flex;gap:10px;align-items:center}
+    .btn{appearance:none;border:1px solid var(--primary1);background:var(--primary1);color:#fff;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600;transition:0.2s}
+    .btn:hover{background:var(--secondary);border-color:var(--secondary)}
+    .btn.ghost{background:transparent;color:var(--primary3);border:1px solid var(--primary3)}
+    .btn.ghost:hover{background:var(--primary3);color:#fff}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .chip{background:var(--primary2);color:var(--neutral-dark);padding:6px 10px;border-radius:999px;display:inline-flex;gap:8px;align-items:center}
+    .chip button{all:unset;cursor:pointer;font-weight:700;color:var(--neutral-dark)}
+    .chip button:hover{color:var(--primary3)}
+    .hint{font-size:12px;color:#555;margin-top:6px}
+    .stack{display:flex;flex-direction:column;gap:10px}
+    footer{padding:16px;background:var(--primary1);border-top:2px solid var(--primary2);text-align:center;color:var(--neutral-light)}
+    footer button{margin:0 6px}
+    @media (max-width:880px){.row-6,.row-4,.row-8{grid-column:span 12}}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Form Input Individu</h1>
+    <p>Isikan data secara lengkap untuk pendataan individu.</p>
+  </header>
+  <div class="container">
+    <form id="formIndividu" novalidate>
+      <!-- IDENTITAS -->
+      <div class="section">
+        <h2>Identitas</h2>
+        <div class="grid">
+          <div class="row-4">
+            <label for="gelar">Title/Gelar</label>
+            <input id="gelar" name="gelar" placeholder="Bpk/Ibu/Dr/Prof/dll" />
+          </div>
+          <div class="row-4">
+            <label for="namaDepan">Nama Depan</label>
+            <input id="namaDepan" name="namaDepan" required />
+          </div>
+          <div class="row-4">
+            <label for="namaBelakang">Nama Belakang</label>
+            <input id="namaBelakang" name="namaBelakang" />
+          </div>
+          <div class="row-6">
+            <label>Gender</label>
+            <div class="inline">
+              <select id="jenis_kelamin" name="jenis_kelamin" required>
+                <option value="">— pilih —</option>
+                <option value="laki-laki">Laki-Laki</option>
+                <option value="perempuan">Perempuan</option>
+                <option value="non-biner">Non-biner</option>
+                <option value="Lainnya">Lainnya</option>
+                <option value="tidak-menyebutkan">Tidak menyebutkan</option>
+            </select>
+            </div>
+          </div>
+                            <style>
+                    .upload-box {
+                        width: 250px;
+                        height: 250px;
+                        border: 2px dashed #999;
+                        border-radius: 10px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        text-align: center;
+                        color: #666;
+                        cursor: pointer;
+                        transition: border-color 0.3s, color 0.3s;
+                        position: relative;
+                        overflow: hidden;
+                        background-size: cover;
+                        background-position: center;
+                    }
+
+                    .upload-box:hover {
+                        border-color: #555;
+                        color: #333;
+                    }
+
+                    .upload-box input[type="file"] {
+                        opacity: 0;
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        cursor: pointer;
+                    }
+                    </style>
+
+                    <label>Unggah Foto</label>
+                    <div class="upload-box" id="uploadBox">
+                    Klik atau drag file di sini (maksimal 5 MB)
+                    <input type="file" id="foto" name="foto" accept="image/*">
+                    </div>
+
+                    <script>
+                    const uploadBox = document.getElementById('uploadBox');
+                    const inputFile = document.getElementById('foto');
+
+                    inputFile.addEventListener('change', function() {
+                        const file = this.files[0];
+                        if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            uploadBox.style.backgroundImage = `url(${e.target.result})`;
+                            uploadBox.textContent = '';
+                        }
+                        reader.readAsDataURL(file);
+                        }
+                    });
+                    </script>
+
+          <div class="row-12">
+            <label for="profil">Profile</label>
+            <textarea id="profil" name="profil" rows="6" placeholder="Deskripsikan profile individu secara mendetail termasuk personal unique selling point, spesialisasi menarik yang dimiliki oleh orang tersebut. Mencakup kapabilitas – skills; capacity; interest
+" required></textarea>
+          </div>
+          <div class="row-6">
+            <label for="lembaga">Lembaga</label>
+            <input id="lembaga" name="lembaga" placeholder="Lookup dengan data dari Lembaga" />
+            <button class="btn" type="button" onclick="addlembaga()">+ Lembaga</button>
+            
+          </div>
+          <div class="row-6">
+            <label for="komunitas">Komunitas</label>
+            <input id="komunitas" name="komunitas" placeholder="Lookup dengan data dari Komunitas" />
+            <button class="btn" type="button" onclick="addkomunitas()">+ Komunitas</button>
+            </div>
+        </div>
+      </div>
+
+      <!-- KONTAK -->
+      <div class="section">
+        <h2>Kontak</h2>
+        <div class="grid" id="kontak-wrapper">
+          <div class="row-8">
+            <label>Nomor Kontak</label>
+            <div class="stack" id="phones"></div>
+            <button class="btn" type="button" onclick="addPhone()">+ Nomor</button>
+            </div>
+          <div class="row-8">
+            <label>Email</label>
+            <div class="stack" id="emails"></div>
+            <button class="btn" type="button" onclick="addEmail()">+ Email</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- WILAYAH -->
+      <div class="section">
+        <h2>Wilayah</h2>
+        <div class="grid">
+          <div class="row-12">
+          <div class="row-6">
+            <label for="provinsi">Provinsi</label>
+            <select id="provinsi" name="provinsi" required>
+              <option value="">Memuat daftar provinsi…</option>
+            </select>
+            <div class="hint" id="provHint"></div>
+          </div>
+          <div class="row-6">
+            <label for="kabkota">Kabupaten/Kota</label>
+            <select id="kabkota" name="kabkota" required disabled>
+              <option value="">Pilih provinsi terlebih dahulu</option>
+            </select>
+          </div>
+          <label for="negara">Negara</label>
+            <textarea id="negara" name="negara" rows="3" placeholder="Hanya diisikan apabila berasal dari luar Indonesia"></textarea>
+          </div>
+          <div class="row-12">
+            <label for="negara">Alamat</label>
+            <textarea id="alamat" name="alamat" rows="3" placeholder="Opsional dan mandatory diisikan apabila berasal dari luar Indonesia"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- MEDIA SOSIAL -->
+      <div class="section">
+        <h2>Media Sosial</h2>
+        <div class="inline">
+          <select id="platform">
+            <option>LinkedIn</option>
+            <option>Facebook</option>
+            <option>Instagram</option>
+            <option>X</option>
+            <option>TikTok</option>
+            <option>Media Sosial Lainnya</option>
+          </select>
+          <input id="handle" placeholder="URL/username" />
+          <button class="btn" type="button" onclick="addSocial()">+ Medsos</button>
+        </div>
+        <div class="chips" id="sosmedChips"></div>
+      </div>
+
+ <!-- KATEGORISASI -->
+      <div class="section">
+        <h2>Kategorisasi</h2>
+        <div class="grid">
+          <div class="row-6">
+            <label for="sektor">Sektor</label>
+            <select id="sektor" name="sektor" required>
+              <option value="">— pilih —</option>
+              <option>Masyarakat Sipil</option>
+              <option>Private</option>
+              <option>Civitas Akademika</option>
+              <option>Pemerintah</option>
+              <option>Donor</option>
+              <option>Media</option>
+              <option>Social Enterprise</option>
+            </select>
+          </div>
+          <div class="row-6">
+            <label for="fokusIsu">Fokus Isu</label>
+            <select id="fokusIsu" name="fokusIsu" required size="6" multiple>
+              <option>Agama dan toleransi beragama</option>
+              <option>Agraria</option>
+              <option>Anak</option>
+              <option>Arsip dan Pustaka</option>
+              <option>Budaya</option>
+              <option>Buruh dan ketenagakerjaan</option>
+              <option>Community Hub</option>
+              <option>Desa</option>
+              <option>Demokrasi dan HAM</option>
+              <option>Disabilitas</option>
+              <option>Ekonomi Kerakyatan dan Koperasi</option>
+              <option>Ekonomi Makro</option>
+              <option>Fasilitasi</option>
+              <option>Hobi</option>
+              <option>Hukum dan Kebijakan</option>
+              <option>Iklim dan Transisi Energi</option>
+              <option>Inklusi</option>
+              <option>Jurnalistik</option>
+              <option>Keamanan dan literasi digital</option>
+              <option>Keberagaman dan minoritas gender</option>
+              <option>Kesehatan</option>
+              <option>Kesehatan mental dan psikologi</option>
+              <option>Keluarga</option>
+              <option>Ketahanan dan dukungan lembaga/komunitas</option>
+              <option>Komunikasi</option>
+              <option>Konservasi Alam</option>
+              <option>Korupsi dan Anggaran</option>
+              <option>Kota</option>
+              <option>Lingkungan Hidup</option>
+              <option>Literasi</option>
+              <option>Masyarakat Adat</option>
+              <option>Media</option>
+              <option>Musik</option>
+              <option>Orang Muda</option>
+              <option>Pangan</option>
+              <option>Pariwisata</option>
+              <option>Pemberdayaan dan penguatan masyarakat</option>
+              <option>Pendanaan</option>
+              <option>Pendidikan</option>
+              <option>Perempuan</option>
+              <option>Pertanian</option>
+              <option>Politik</option>
+              <option>Publikasi Media</option>
+              <option>Relawan</option>
+              <option>Sampah dan limbah</option>
+              <option>Sastra</option>
+              <option>Sejarah</option>
+              <option>Seni</option>
+              <option>Spiritualitas</option>
+              <option>Sumber Daya Alam</option>
+              <option>Tata Kelola Pemerintahan</option>
+              <option>Teater dan Tari</option>
+              <option>Usaha Sosial</option>
+              <option>Visual (film, foto, dan video)</option>
+            </select>
+          </div>
+          <div class="row-12">
+            <label for="kegiatanInti">Kegiatan Inti</label>
+            <select id="kegiatanInti" name="kegiatanInti" required size="5" multiple>
+              <option>Advokasi Kebijakan</option>
+              <option>Diskusi Publik</option>
+              <option>Fasilitasi</option>
+              <option>Jasa</option>
+              <option>Jurnalistik</option>
+              <option>Konservasi Budaya</option>
+              <option>Konservasi Lingkungan</option>
+              <option>Kedai dan Tempat makan</option>
+              <option>Kesenian</option>
+              <option>Literasi</option>
+              <option>Manajemen Pengetahuan</option>
+              <option>Pameran</option>
+              <option>Pendanaan</option>
+              <option>Pendidikan dan Pelatihan</option>
+              <option>Pengorganisasian</option>
+              <option>Peningkatan Kapasitas</option>
+              <option>Tour</option>
+              <option>Riset</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+ <!-- KEBUTUHAN KHUSUS -->
+       <div class="section">
+        <h2>Kebutuhan Khusus</h2>
+        <div class="grid">
+          <div class="row-12">
+          <div class="row-6">
+            <label for="kebutuhan">Kebutuhan Khusus</label>
+                <select id="disabilitas" name="disabilitas" required>
+                <option value="tidak-ada">Tidak ada</option>
+                <option value="fisik">Disabilitas fisik - mobilitas</option>
+                <option value="tunarungu">Disabilitas sensorik rungu - gangguan pendengaran</option>
+                <option value="tunanetra">Disabilitas sensorik netra - gangguan penglihatan</option>
+                <option value="intelektual">Disabilitas intelektual - kognitif</option>
+                <option value="mental">Disabilitas mental - psikososial</option>
+                <option value="multiple">Disabilitas multiple - kombinasi</option>
+                </select>
+            <div class="row-12">
+            <label for="keterangandisabilitas">Keterangan</label>
+            <textarea id="keterangandisabilitas" name="keterangandisabilitas" rows="2" placeholder="keterangan disabilitas: mobilitas, tunarungu/gangguan pendengaran, tunanetra/gangguan penglihatan, kognitif, psikososial "></textarea>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KOLOBORAYA -->
+      <div class="section">
+        <h2>Kolaboraya</h2>
+        <div class="grid">
+          <div class="row-6">
+            <label for="wag">WAG Kolaboraya</label>
+            <div class="inline">
+              <input type="checkbox" id="wag" name="wag" value="Ya" />
+            </div>
+            <label for="wag">Aplikasi Pasar Kolaboraya</label>
+            <div class="inline">
+              <input type="checkbox" id="wag" name="wag" value="Ya" />
+            </div>
+            <label for="wag">Setuju profilenya ditampilkan publik</label>
+            <div class="inline">
+              <input type="checkbox" id="wag" name="wag" value="Ya" />
+            </div>
+          </div>
+          <div class="row-12">
+            <label for="aktivitasKolaboraya">Aktivitas di Kolaboraya</label>
+            <textarea id="aktivitasKolaboraya" name="aktivitasKolaboraya" rows="3" placeholder="Lookup dengan list event Kolaboraya dan perannya dan bisa ditambahkan"></textarea>
+          </div>
+          <div class="row-12">
+            <label for="aktivitasKolaboraya">Engagement dengan Roemi</label>
+            <textarea id="aktivitasKolaboraya" name="aktivitasKolaboraya" rows="1" placeholder="ada tahun yang lookup dari querry pertama kali terlibat di event atau diisi manual"></textarea>
+          </div>
+        </div>
+      </div>
+
+      
+      <!-- SUBMIT -->
+      <footer>
+        <button class="btn" type="submit">Simpan</button>
+        <button class="btn ghost" type="reset">Reset</button>
+        <div id="status" class="hint" style="margin-top:8px"></div>
+      </footer>
+    </form>
+  </div>
+
+  <script>
+    function makeRemovableInput(name, type="text", placeholder="") {
+      const wrap = document.createElement('div');
+      wrap.className = 'inline';
+      const input = document.createElement('input');
+      input.type = type; input.name = name; input.placeholder = placeholder;
+      const del = document.createElement('button');
+      del.type = 'button'; del.className = 'btn ghost'; del.textContent = 'Hapus';
+      del.onclick = () => wrap.remove();
+      wrap.appendChild(input); wrap.appendChild(del);
+      return wrap;
+    }
+
+    function addPhone(){
+      document.getElementById('phones').appendChild(makeRemovableInput('telepon[]','tel','sertakan nomor negara contoh: +62 81234567890'));
+    }
+    function addEmail(){
+      document.getElementById('emails').appendChild(makeRemovableInput('email[]','email','namauser@kolaboraya.id'));
+    }
+    addPhone(); addEmail();
+
+    function addSocial(){
+      const platform = document.getElementById('platform').value;
+      const handle = document.getElementById('handle').value.trim();
+      if(!handle){ alert('Masukkan URL/username.'); return; }
+      const chip = document.createElement('div');
+      chip.className = 'chip';
+      chip.innerHTML = `<input type="hidden" name="sosmed[]" value="${platform}|${handle}"><strong>${platform}:</strong><span>${handle}</span><button title="Hapus">×</button>`;
+      chip.querySelector('button').onclick = ()=> chip.remove();
+      document.getElementById('sosmedChips').appendChild(chip);
+      document.getElementById('handle').value = '';
+    }
+
+    // Load Provinsi & Kabupaten/Kota
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json')
+        .then(res => res.json())
+        .then(data => {
+          const prov = document.getElementById('provinsi');
+          prov.innerHTML = '<option value="">Pilih Provinsi</option>';
+          data.forEach(p => {
+            let opt = document.createElement('option');
+            opt.value = p.id;
+            opt.textContent = p.name;
+            prov.appendChild(opt);
+          });
+          document.getElementById('provHint').textContent = `Total provinsi: ${data.length}`;
+        });
+
+      document.getElementById('provinsi').addEventListener('change', (e) => {
+        const id = e.target.value;
+        const kab = document.getElementById('kabkota');
+        kab.innerHTML = '<option value="">Memuat data…</option>';
+        kab.disabled = true;
+        if(id){
+          fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${id}.json`)
+            .then(res => res.json())
+            .then(data => {
+              kab.innerHTML = '<option value="">Pilih Kabupaten/Kota</option>';
+              data.forEach(k => {
+                let opt = document.createElement('option');
+                opt.value = k.id;
+                opt.textContent = k.name;
+                kab.appendChild(opt);
+              });
+              kab.disabled = false;
+            });
+        } else {
+          kab.innerHTML = '<option value="">Pilih provinsi terlebih dahulu</option>';
+          kab.disabled = true;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

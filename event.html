@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Form Input Event</title>
+<style>
+  :root { 
+    --primary1:#00B8D9; 
+    --primary2:#98DA43; 
+    --primary3:#E300B5; 
+    --secondary:#FF9900; 
+    --neutral-dark:#222640; 
+    --neutral-light:#FFFFFF; 
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,"Noto Sans",sans-serif;background:var(--neutral-light);color:var(--neutral-dark)}
+  header{padding:24px 16px;text-align:center;background:var(--primary1);color:var(--neutral-light)}
+  header h1{margin:0;font-size:clamp(20px,3vw,28px)}
+  header p{margin:6px 0 0;color:var(--neutral-light)}
+  .container{max-width:1200px;margin:0 auto;padding:16px}
+  form{background:var(--neutral-light);border:2px solid var(--primary2);box-shadow:0 6px 20px rgba(34,38,64,.2);border-radius:16px;overflow:hidden}
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+  .section{padding:20px;border-top:1px dashed #ddd}
+  .section:first-child{border-top:none}
+  h2{font-size:18px;margin:0 0 12px;color:var(--primary3)}
+  h3{margin-top:10px;color:var(--primary1)}
+  label{display:block;font-weight:600;margin:8px 0 6px;color:var(--neutral-dark)}
+  input, select, textarea{padding:10px 12px;background:var(--neutral-light);border:1px solid #ccc;color:var(--neutral-dark);border-radius:8px;outline:none;width:100%}
+  input:focus, select:focus, textarea:focus{border-color:var(--primary1);box-shadow:0 0 0 3px rgba(0,184,217,.25)}
+  .row-12{grid-column:span 12}
+
+  /* Layout baris berulang */
+  .inline {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+  .inline .num-label {
+    width: 40px;
+    text-align: right;
+    font-weight: bold;
+    color: var(--primary3);
+    flex: 0 0 auto;
+  }
+  .inline input[type="text"] {
+    flex: 1;
+  }
+  .inline .peran {
+    flex: 1;
+  }
+  .inline .tamu-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 0 0 auto;
+  }
+  .inline .hapus-btn {
+    flex: 0 0 auto;
+  }
+
+  /* Responsif untuk HP */
+  @media(max-width:768px){
+    .inline { flex-wrap: wrap; }
+    .inline input, .inline .peran { flex: 100%; }
+  }
+
+  .btn{appearance:none;border:1px solid var(--primary1);background:var(--primary1);color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600;transition:0.2s}
+  .btn:hover{background:var(--secondary);border-color:var(--secondary)}
+  .btn.ghost{background:transparent;color:var(--primary3);border:1px solid var(--primary3)}
+  .btn.ghost:hover{background:var(--primary3);color:#fff}
+  .stack{display:flex;flex-direction:column;gap:10px}
+  footer{padding:16px;background:var(--primary1);border-top:2px solid var(--primary2);text-align:center;color:var(--neutral-light)}
+  footer button{margin:0 6px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Form Input Event</h1>
+  <p>Isikan data lengkap untuk pendataan event/penyelenggaraan kegiatan.</p>
+</header>
+
+<div class="container">
+  <form id="formEvent" novalidate>
+
+    <!-- INFORMASI EVENT -->
+    <div class="section">
+      <h2>Informasi Event</h2>
+      <div class="grid">
+        <div class="row-12">
+          <label for="namaEvent">Nama Event</label>
+          <input id="namaEvent" name="namaEvent" required />
+        </div>
+        <div class="row-12">
+          <label for="deskripsi">Deskripsi</label>
+          <textarea id="deskripsi" name="deskripsi" rows="4"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- WAKTU & TEMPAT -->
+    <div class="section">
+      <h2>Waktu & Tempat</h2>
+      <div class="grid">
+        <div class="row-12">
+          <label>Mulai</label>
+          <input type="date" id="tanggalMulai" name="tanggalMulai" required>
+        </div>
+        <div class="row-12">
+          <label>Selesai</label>
+          <input type="date" id="tanggalSelesai" name="tanggalSelesai" required>
+        </div>
+        <div class="row-12">
+          <label for="tempat">Tempat</label>
+          <input id="tempat" name="tempat" required />
+        </div>
+      </div>
+    </div>
+    
+    <!-- SESSION -->
+    <div class="section">
+      <h2>Session</h2>
+      <div class="stack" id="sessionWrapper"></div>
+      <button class="btn" type="button" onclick="addSession()">+ Tambah Session</button>
+    </div>
+
+    <!-- PENANGGUNG JAWAB -->
+    <div class="section">
+      <h2>Penanggung Jawab</h2>
+      <div class="stack" id="pjWrapper"></div>
+      <button class="btn" type="button" onclick="addPJ()">+ Tambah Penanggung Jawab</button>
+    </div>
+
+    <!-- KOLABORATOR -->
+    <div class="section">
+      <h2>Kolaborator</h2>
+      <div class="stack" id="kolaboratorWrapper"></div>
+      <button class="btn" type="button" onclick="addKolaborator()">+ Tambah Kolaborator</button>
+    </div>
+
+    <!-- SUBMIT -->
+    <footer>
+      <button class="btn" type="submit">Simpan</button>
+      <button class="btn ghost" type="reset">Reset</button>
+    </footer>
+  </form>
+</div>
+
+<script>
+  function updateNumbers(wrapper){
+    wrapper.querySelectorAll('.inline').forEach((row, idx)=>{
+      row.querySelector('.num-label').textContent = (idx+1)+'.';
+    });
+  }
+
+  // Row PJ/Kolaborator
+  function makeRoleRow(type){
+    const wrap = document.createElement('div');
+    wrap.className = 'inline';
+
+    const num = document.createElement('div');
+    num.className = 'num-label';
+    num.textContent = '?';
+
+    const inputNama = document.createElement('input');
+    inputNama.type = 'text';
+    inputNama.name = (type === 'pj' ? "penanggungJawab[]" : "kolaborator[]");
+    inputNama.placeholder = "Nama " + (type === 'pj' ? "Penanggung Jawab" : "Kolaborator");
+
+    const inputPeran = document.createElement('input');
+    inputPeran.type = 'text';
+    inputPeran.name = (type === 'pj' ? "penanggungJawabPeran[]" : "kolaboratorPeran[]");
+    inputPeran.placeholder = "Peran";
+    inputPeran.className = "peran";
+
+    const del = document.createElement('button');
+    del.type='button'; del.className='btn ghost hapus-btn'; del.textContent='Hapus';
+    del.onclick=()=>{
+      wrap.remove();
+      updateNumbers(type==='pj'?document.getElementById('pjWrapper'):document.getElementById('kolaboratorWrapper'));
+    };
+
+    wrap.appendChild(num);
+    wrap.appendChild(inputNama);
+    wrap.appendChild(inputPeran);
+    wrap.appendChild(del);
+    return wrap;
+  }
+
+  function addPJ(){
+    const wrapper = document.getElementById('pjWrapper');
+    wrapper.appendChild(makeRoleRow('pj'));
+    updateNumbers(wrapper);
+  }
+  function addKolaborator(){
+    const wrapper = document.getElementById('kolaboratorWrapper');
+    wrapper.appendChild(makeRoleRow('kolaborator'));
+    updateNumbers(wrapper);
+  }
+
+  // Row Peserta
+  function makePesertaRow(wrapper){
+    const wrap = document.createElement('div');
+    wrap.className = 'inline';
+
+    const num = document.createElement('div');
+    num.className = 'num-label';
+    num.textContent = '?';
+
+    const inputNama = document.createElement('input');
+    inputNama.type = 'text';
+    inputNama.name = 'pesertaNama[]';
+    inputNama.placeholder = 'Nama Peserta';
+
+    const tamuWrap = document.createElement('div');
+    tamuWrap.className = 'tamu-label';
+    const chk = document.createElement('input');
+    chk.type='checkbox'; chk.name='pesertaTamu[]'; chk.value='1';
+    const lbl = document.createElement('label');
+    lbl.textContent='Tamu'; lbl.style.fontWeight='normal';
+    tamuWrap.appendChild(chk); tamuWrap.appendChild(lbl);
+
+    const del = document.createElement('button');
+    del.type='button'; del.className='btn ghost hapus-btn'; del.textContent='Hapus';
+    del.onclick=()=>{
+      wrap.remove();
+      updateNumbers(wrapper);
+    };
+
+    wrap.appendChild(num);
+    wrap.appendChild(inputNama);
+    wrap.appendChild(tamuWrap);
+    wrap.appendChild(del);
+    return wrap;
+  }
+
+  // Session
+  function addSession(){
+    const block = document.createElement('div');
+    block.className = 'grid';
+    block.style.border='1px dashed #ccc';
+    block.style.padding='10px';
+    block.style.marginBottom='15px';
+
+    block.innerHTML = `
+      <div class="row-12"><label>Nama Session</label><input name="sessionNama[]" required></div>
+      <div class="row-12"><label>Mulai</label><input type="datetime-local" name="sessionMulai[]" required></div>
+      <div class="row-12"><label>Selesai</label><input type="datetime-local" name="sessionSelesai[]" required></div>
+      <div class="row-12"><label>Tempat Session</label><input name="sessionTempat[]" required></div>
+      <div class="row-12">
+        <h3>Peserta</h3>
+        <div class="stack pesertaWrapper"></div>
+        <button class="btn" type="button" onclick="addPeserta(this)">+ Tambah Peserta</button>
+        <button class="btn ghost" type="button" onclick="downloadCSV(this)">⬇ Download CSV</button>
+      </div>
+      <div class="row-12">
+        <h3>File Pendukung</h3>
+        <div class="grid">
+          <div class="row-12"><input type="file" name="sessionFilePendukung[]" multiple></div>
+          <div class="row-12"><input name="sessionLinkPendukung[]" placeholder="https://…"></div>
+        </div>
+      </div>
+    `;
+
+    const btn = document.createElement('button');
+    btn.type='button'; btn.className='btn ghost'; btn.textContent='Hapus Session';
+    btn.onclick=()=>block.remove();
+    block.appendChild(btn);
+
+    document.getElementById('sessionWrapper').appendChild(block);
+  }
+
+  function addPeserta(el){
+    const wrapper = el.parentNode.querySelector('.pesertaWrapper');
+    wrapper.appendChild(makePesertaRow(wrapper));
+    updateNumbers(wrapper);
+  }
+
+  function downloadCSV(btn){
+    const sessionDiv = btn.closest('.grid');
+    const sessionName = sessionDiv.querySelector('input[name="sessionNama[]"]').value || 'session';
+    const wrapper = btn.parentNode.querySelector('.pesertaWrapper');
+    const rows = [['No','Nama Peserta','Tamu']];
+    wrapper.querySelectorAll('.inline').forEach((div, idx)=>{
+      const nama = div.querySelector('input[type=text]').value || '';
+      const tamu = div.querySelector('input[type=checkbox]').checked ? 'Ya':'Tidak';
+      rows.push([idx+1, nama, tamu]);
+    });
+    let csvContent = rows.map(r=>r.join(",")).join("\n");
+    const blob = new Blob([csvContent],{type:"text/csv"});
+    const link = document.createElement('a');
+    link.href=URL.createObjectURL(blob);
+    link.download=`Peserta_${sessionName.replace(/\s+/g,'_')}.csv`;
+    link.click();
+  }
+</script>
+</body>
+</html>

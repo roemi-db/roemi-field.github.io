@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Form Input Panitia</title>
+<style>
+  :root { 
+    --primary1:#00B8D9; 
+    --primary2:#98DA43; 
+    --primary3:#E300B5; 
+    --secondary:#FF9900; 
+    --neutral-dark:#222640; 
+    --neutral-light:#FFFFFF; 
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,"Noto Sans",sans-serif;background:var(--neutral-light);color:var(--neutral-dark)}
+  header{padding:24px 16px;text-align:center;background:var(--primary1);color:var(--neutral-light)}
+  header h1{margin:0;font-size:clamp(20px,3vw,28px)}
+  header p{margin:6px 0 0;color:var(--neutral-light)}
+  .container{max-width:800px;margin:0 auto;padding:16px}
+  form{background:var(--neutral-light);border:2px solid var(--primary2);box-shadow:0 6px 20px rgba(34,38,64,.2);border-radius:16px;overflow:hidden}
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+  .section{padding:20px;border-top:1px dashed #ddd}
+  .section:first-child{border-top:none}
+  h2{font-size:18px;margin:0 0 12px;color:var(--primary3)}
+  label{display:block;font-weight:600;margin:8px 0 6px;color:var(--neutral-dark)}
+  input, select, textarea{width:100%;padding:12px 14px;background:var(--neutral-light);border:1px solid #ccc;color:var(--neutral-dark);border-radius:10px;outline:none}
+  input:focus, select:focus, textarea:focus{border-color:var(--primary1);box-shadow:0 0 0 3px rgba(0,184,217,.25)}
+  .row-6{grid-column:span 6}
+  .row-12{grid-column:span 12}
+  .inline{display:flex;gap:10px;align-items:center}
+  .btn{appearance:none;border:1px solid var(--primary1);background:var(--primary1);color:#fff;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600;transition:0.2s}
+  .btn:hover{background:var(--secondary);border-color:var(--secondary)}
+  .btn.ghost{background:transparent;color:var(--primary3);border:1px solid var(--primary3)}
+  .btn.ghost:hover{background:var(--primary3);color:#fff}
+  .stack{display:flex;flex-direction:column;gap:10px}
+  footer{padding:16px;background:var(--primary1);border-top:2px solid var(--primary2);text-align:center;color:var(--neutral-light)}
+  footer button{margin:0 6px}
+  @media (max-width:880px){.row-6{grid-column:span 12}}
+  /* Upload Box */
+  .upload-box {
+    width: 250px;
+    height: 250px;
+    border: 2px dashed #999;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #666;
+    cursor: pointer;
+    transition: border-color 0.3s, color 0.3s;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+  }
+  .upload-box:hover { border-color: #555; color: #333; }
+  .upload-box input[type="file"] {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Form Input Panitia</h1>
+  <p>Isikan data lengkap untuk pendataan panitia.</p>
+</header>
+
+<div class="container">
+  <form id="formCrew" novalidate>
+
+    <!-- IDENTITAS -->
+    <div class="section">
+      <h2>Identitas</h2>
+      <div class="grid">
+        <div class="row-6">
+            <label for="namaDepan">Nama Depan</label>
+            <input id="namaDepan" name="namaDepan" required />
+          </div>
+          <div class="row-6">
+            <label for="namaBelakang">Nama Belakang</label>
+            <input id="namaBelakang" name="namaBelakang" />
+          </div>
+        <div class="row-6">
+          <label>Upload Foto (Opsional)</label>
+          <div class="upload-box" id="uploadFoto">
+            Klik atau drag file di sini maksimal 5 MB
+            <input type="file" id="foto" name="foto" accept="image/*">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INFO POSISI -->
+    <div class="section">
+      <h2>Peran</h2>
+      <div class="grid">
+        <div class="row-6">
+          <label for="jabatan">Peran di Event</label>
+          <input id="event" name="event" placeholder="Nama Event lookup dari list event" required />
+          <input id="jabatan" name="jabatan" placeholder="Contoh: Stage Manager, Liaison Officer" required />
+          <button class="btn" type="button" onclick="addnperan()">+ Peran</button>
+        </div>
+        <div class="row-12">
+          <label for="catatan">Catatan Tambahan (Opsional)</label>
+          <textarea id="catatan" name="catatan" rows="3" placeholder="Informasi lain yang relevan"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- KONTAK -->
+    <div class="section">
+      <h2>Kontak</h2>
+      <div class="grid">
+        <div class="row-6">
+          <label>Nomor Telepon</label>
+          <div class="stack" id="phones"></div>
+          <button class="btn" type="button" onclick="addPhone()">+ Tambah Nomor</button>
+        </div>
+        <div class="row-6">
+          <label>Email</label>
+          <div class="stack" id="emails"></div>
+          <button class="btn" type="button" onclick="addEmail()">+ Tambah Email</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEDIA SOSIAL -->
+    <div class="section">
+      <h2>Media Sosial</h2>
+      <div class="inline">
+        <select id="platform">
+          <option>LinkedIn</option>
+          <option>Facebook</option>
+          <option>Instagram</option>
+          <option>X</option>
+          <option>TikTok</option>
+          <option>Media Sosial Lainnya</option>
+        </select>
+        <input id="handle" placeholder="URL/username" />
+        <button class="btn" type="button" onclick="addSocial()">+ Tambah</button>
+      </div>
+      <div class="stack" id="sosmedChips"></div>
+    </div>
+     <!-- KOLABORAYA -->
+    <div class="section">
+        <h2>Kolaboraya</h2>
+        <div class="grid">
+
+    <div class="row-12">
+            <label for="aktivitasKolaboraya">Aktivitas di Kolaboraya</label>
+            <textarea id="aktivitasKolaboraya" name="aktivitasKolaboraya" rows="3" placeholder="Lookup dengan list event Kolaboraya dan perannya dan bisa ditambahkan"></textarea>
+          </div>
+          <div class="row-12">
+            <label for="aktivitasKolaboraya">Engagement dengan Roemi</label>
+            <textarea id="aktivitasKolaboraya" name="aktivitasKolaboraya" rows="1" placeholder="ada tahun yang lookup dari querry pertama kali terlibat di event atau diisi manual"></textarea>
+          </div>
+        </div>
+        <br>
+        <div><button class="btn ghost" type="reset">Import ke data Individu</button></div>
+        <br>
+    <!-- SUBMIT -->
+    <footer>
+      <button class="btn" type="submit">Simpan</button>
+      <button class="btn ghost" type="reset">Reset</button>
+      <div id="status" class="hint" style="margin-top:8px"></div>
+    </footer>
+  </form>
+</div>
+
+<script>
+  // Preview upload foto
+  const uploadFoto = document.getElementById('uploadFoto');
+  const inputFoto = document.getElementById('foto');
+  inputFoto.addEventListener('change', function() {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        uploadFoto.style.backgroundImage = `url(${e.target.result})`;
+        uploadFoto.textContent = '';
+      }
+      reader.readAsDataURL(file);
+    }
+  });
+
+  function makeRemovableInput(name, type="text", placeholder="") {
+    const wrap = document.createElement('div');
+    wrap.className = 'inline';
+    const input = document.createElement('input');
+    input.type = type; input.name = name; input.placeholder = placeholder;
+    const del = document.createElement('button');
+    del.type = 'button'; del.className = 'btn ghost'; del.textContent = 'Hapus';
+    del.onclick = () => wrap.remove();
+    wrap.appendChild(input); wrap.appendChild(del);
+    return wrap;
+  }
+
+  function addPhone(){
+    document.getElementById('phones')
+      .appendChild(makeRemovableInput('telepon[]','tel','contoh: +62 81234567890'));
+  }
+  function addEmail(){
+    document.getElementById('emails')
+      .appendChild(makeRemovableInput('email[]','email','nama@domain.com'));
+  }
+  addPhone(); addEmail();
+
+  function addSocial(){
+    const platform = document.getElementById('platform').value;
+    const handle = document.getElementById('handle').value.trim();
+    if(!handle){ alert('Masukkan URL/username.'); return; }
+    const chip = document.createElement('div');
+    chip.className = 'chip inline';
+    chip.innerHTML = `<input type="hidden" name="sosmed[]" value="${platform}|${handle}"><strong>${platform}:</strong><span>${handle}</span>`;
+    const btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'btn ghost'; btn.textContent = 'Hapus';
+    btn.onclick = () => chip.remove();
+    chip.appendChild(btn);
+    document.getElementById('sosmedChips').appendChild(chip);
+    document.getElementById('handle').value = '';
+  }
+</script>
+</body>
+</html>
